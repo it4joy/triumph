@@ -1,0 +1,74 @@
+.btn {
+  display: inline-block;
+  padding: $btn-padding-y $btn-padding-x;
+  background-color: $custom-mid-gray;
+  border: $btn-border-width solid $btn-border-color;
+  text-align: center;
+  font-family: $font-family-base;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  line-height: $btn-line-height;
+  font-weight: $btn-font-weight;
+  color: $custom-dark-gray;
+  &:not(.disabled),
+  &:not(:disabled) {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &:focus {
+    outline: 0;
+  }
+  &.disabled,
+  &:disabled {
+    opacity: $btn-disabled-opacity;
+  }
+  &-primary {
+    background: $bright-blue;
+    color: $white;
+    &:hover {
+      background: darken($bright-blue, 10%);
+    }
+  }
+  &-danger {
+    background: $lilac-pink;
+    color: $white;
+    &:hover {
+      background: darken($lilac-pink, 10%);
+    }
+  }
+}
+
+.btn-link {
+  display: inline-block;
+  background: $transparent;
+  border: none;
+  font-weight: $font-weight-normal;
+  color: $link-color;
+  &:not(.disabled),
+  &:not(:disabled) {
+    &:hover {
+      cursor: pointer;
+      color: $link-hover-color;
+    }
+  }
+  &:focus {
+    outline: 0;
+  }
+  &.disabled,
+  &:disabled {
+    color: $btn-link-disabled-color;
+  }
+  &-danger {
+    color: $lilac-pink;
+    &:hover {
+      color: darken($lilac-pink, 10%) !important;
+    }
+  }
+}
+
+.btn-fullwidth {
+  display: block;
+  width: 100%;
+}

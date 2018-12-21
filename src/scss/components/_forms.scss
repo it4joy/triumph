@@ -1,0 +1,114 @@
+.form-control {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: $input-padding-y $input-padding-x;
+  background: $input-bg;
+  border-width: $input-border-width;
+  border-color: $input-border-color;
+  border-radius: $input-border-radius;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $input-line-height;
+  color: $input-color;
+  &:focus {
+    outline: 0;
+    box-shadow: $box-shadow-custom;
+  }
+  &::placeholder {
+    color: $input-placeholder-color;
+  }
+  &.custom-select {
+    color: $custom-mid-gray;
+  }
+}
+
+input[attr="disabled"] {
+  background: $input-disabled-bg;
+  color: $input-disabled-color;
+}
+
+option[attr="disabled"] {
+  color: $input-disabled-color;
+}
+
+
+// Theme
+
+.custom-control-group {
+  margin-bottom: 1.5rem;
+  .label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-family: $font-family-base-medium;
+    font-size: $font-size-sm;
+    color: $custom-mid-gray;
+  }
+}
+
+.custom-select-wrapper {
+  position: relative;
+  &::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f107";
+    position: absolute;
+    top: 50%;
+    right: 0.3rem;
+    z-index: 2;
+    display: inline-block;
+    margin-top: -1rem;
+    width: 2rem;
+    height: 2rem;
+    background-color: $white;
+    color: $custom-mid-gray;
+  }
+  &.unfolded::before {
+    content: "\f106";
+  }
+}
+
+.control-switcher {
+  position: relative;
+  @include display-flex-mixin(flex, row, space-between, center);
+  overflow: hidden;
+  height: 4rem;
+  box-shadow: $box-shadow;
+  .data-items-wrapper {
+    position: absolute;
+    top: -4rem;
+    left: 0;
+    @include display-flex-mixin(flex, column, space-between, center);
+    overflow: hidden;
+    width: 100%;
+  }
+  .data-item {
+    display: block;
+    margin: 1rem 0;
+    padding: 0.3rem 1rem;
+    width: 100%;
+    height: 2rem;
+    text-align: left;
+    color: $black;
+  }
+  .carets {
+    position: absolute;
+    right: 1.5rem;
+    @include display-flex-mixin(flex, column, center, flex-end);
+    width: 2rem;
+    height: 2rem;
+    text-align: right;
+    .fa {
+      position: relative;
+      &:hover {
+        cursor: pointer;
+        color: $black;
+      }
+    }
+    .fa:first-child {
+      top: 0.3rem;
+    }
+    .fa:last-child {
+      bottom: 0.3rem;
+    }
+  }
+}

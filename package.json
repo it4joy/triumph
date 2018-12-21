@@ -1,0 +1,51 @@
+{
+  "name": "triumph_test_pckg",
+  "version": "0.0.1",
+  "description": "Triumph - test task",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "start": "webpack-dev-server --mode development --open",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": "https://github.com/it4joy/IndexBox/issues/1"
+  },
+  "homepage": "https://github.com/it4joy/IndexBox/blob/master/README.md",
+  "author": "Igor Ivanov",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@fortawesome/fontawesome-free": "^5.5.0",
+    "autoprefixer": "^9.3.0",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
+    "flexboxgrid": "^6.3.1",
+    "mini-css-extract-plugin": "^0.4.4",
+    "node-sass": "^4.9.4",
+    "node-static": "^0.7.11",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.22.0",
+    "webpack-cli": "^3.1.2"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 0.2%",
+    "IE >= 10"
+  ]
+}

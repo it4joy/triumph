@@ -1,0 +1,19 @@
+// Flex
+
+@mixin display-flex-mixin($display, $direction, $justify_content, $align_items, $flex_wrap: nowrap) {
+  display: $display;
+  flex-direction: $direction;
+  justify-content: $justify_content;
+  align-items: $align_items;
+  flex-wrap: $flex_wrap;
+}
+
+@mixin flex($flex_grow, $flex_shrink, $flex-basis) {
+  flex: $flex_grow $flex_shrink $flex-basis;
+}
+
+// Typography
+
+@mixin text-transform-mixin($text-transform-val) {
+  text-transform: $text-transform-val;
+}

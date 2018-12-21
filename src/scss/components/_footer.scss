@@ -1,0 +1,28 @@
+.footer {
+  @include flex(0, 0, 7rem);
+  padding: 1.5rem;
+}
+
+.contacts-copyright {
+  color: $custom-mid-gray;
+  .p {
+    margin-bottom: 0;
+  }
+}
+
+.link-to-top {
+  display: inline-block;
+  margin-left: 12rem;
+  font-size: $font-size-sm;
+  .fa {
+    margin-left: 3rem;
+    display: none;
+    transition: $transition-base;
+  }
+  &:hover {
+    cursor: pointer;
+    .fa {
+      display: inline-block;
+    }
+  }
+}

@@ -1,0 +1,61 @@
+// links
+
+.link {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+
+// Headings
+
+.h1 {
+  font-size: $h1-font-size;
+}
+.h2 {
+  font-size: $h2-font-size;
+}
+.h3 {
+  font-size: $h3-font-size;
+}
+.h4 {
+  font-size: $h4-font-size;
+}
+.h5 {
+  font-size: $h5-font-size;
+}
+.h6 {
+  font-size: $h6-font-size;
+}
+
+
+// `p` styles
+
+.p {
+  font-size: $font-size-base;
+}
+
+.p-sm {
+  font-size: $font-size-sm;
+}
+
+
+// Lists
+
+.list {
+  padding-left: 0;
+  list-style: none;
+}
+
+.list_horizontal {
+  @include display-flex-mixin(flex, row, space-between, center, wrap);
+}
+
+
+// Custom headings
+
+.corp-heading {
+  margin-bottom: 3rem;
+  font-family: 'Rubik Light', Tahoma, sans-serif;
+  color: $blue;
+}

@@ -1,0 +1,90 @@
+.nav {
+  position: relative;
+  @include display-flex-mixin(flex, row, space-between, center, wrap);
+  .list {
+    @include display-flex-mixin(flex, row, space-between, center, wrap);
+    margin-bottom: 0;
+    width: 100%;
+    height: 100%;
+    .nav-item {
+      display: inline-block;
+    }
+  }
+}
+
+.top-nav {
+  height: $nav-default-height;
+  .nav-toggler {
+    display: none;
+    padding: 0;
+    width: 4rem;
+    height: 4rem;
+    background: $transparent;
+    color: $white;
+    &:hover {
+      color: darken($white, 5%);
+    }
+  }
+  .logo-block {
+    padding-left: 3.5rem;
+    line-height: 1;
+    font-size: 2.4rem;
+    @include text-transform-mixin(uppercase);
+    color: $white;
+  }
+  .nav-list-wrapper {
+    position: relative;
+    @include display-flex-mixin(flex, row, space-between, center, wrap);
+    width: 75%;
+    height: 100%;
+  }
+  .nav-item {
+    height: 100%;
+  }
+  .penultimate-item {
+    margin-left: 2rem;
+  }
+  .nav-item.promo .link {
+    // to provide cross-browser ability use: http://www.colorzilla.com/gradient-editor/
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: $transparent;
+    font-family: $font-family-base-medium;
+    animation: promo-link 3s linear 0s infinite;
+    color: #ff7f7c;
+    &:hover {
+      opacity: .8;
+    }
+  }
+  .nav-item .link {
+    @include display-flex-mixin(flex, row, center, center, wrap);
+    padding: $nav-item-link-padding;
+    height: 100%;
+    font-family: $font-family-base-medium;
+    color: rgba($white, .4);
+    &:hover {
+      color: $white;
+    }
+  }
+  .nav-item.active .link {
+    color: $white;
+  }
+}
+
+.bottom-nav {
+  color: $custom-mid-gray;
+  .link {
+    color: $custom-mid-gray;
+    &:hover {
+      color: $custom-dark-gray;
+    }
+  }
+}
+
+@keyframes promo-link{
+  0% {
+    background-image: linear-gradient(270deg, #ff7f7c 0%, #5aa4ff 100%);
+  }
+  100% {
+    background-image: linear-gradient(90deg, #ff7f7c 0%, #5aa4ff 100%);
+  }
+}
