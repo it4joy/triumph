@@ -3,6 +3,7 @@
   padding: $btn-padding-y $btn-padding-x;
   background-color: $custom-mid-gray;
   border: $btn-border-width solid $btn-border-color;
+  border-radius: $btn-border-radius;
   text-align: center;
   font-family: $font-family-base;
   white-space: nowrap;
@@ -36,6 +37,11 @@
     color: $white;
     &:hover {
       background: darken($lilac-pink, 10%);
+    }
+  }
+  &-left-icon {
+    .fa {
+      margin-right: 1rem;
     }
   }
 }
