@@ -3,3 +3,32 @@
   height: 400px;
   border: 1px solid $gray-400;
 }
+
+.sandbox-controls-wrapper {
+  .tip {
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: $light-bright-blue;
+    border-radius: $border-radius;
+    color: $gray-800;
+  }
+  .tip-heading {
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+  }
+  .icon-close-tip {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    color: $middle-blue;
+    &:hover {
+      opacity: .8;
+    }
+  }
+}
+
+.btn-create-curve,
+.btn-clean {
+  display: none;
+}

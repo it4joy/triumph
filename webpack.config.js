@@ -12,6 +12,10 @@ module.exports = {
     library: 'main',
   },
   devtool: NODE_ENV == 'development' ? 'source-map' : null,
+  devServer: {
+    contentBase: './',
+    compress: true
+  },
   module: {
     rules: [
       {

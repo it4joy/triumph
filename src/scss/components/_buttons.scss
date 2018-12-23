@@ -32,6 +32,12 @@
       background: darken($bright-blue, 10%);
     }
   }
+  &-secondary {
+    background: $gray-300;
+    &:hover {
+      background: darken($gray-300, 10%);
+    }
+  }
   &-danger {
     background: $lilac-pink;
     color: $white;

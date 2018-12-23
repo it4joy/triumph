@@ -24,7 +24,7 @@
               <nav class="nav top-nav">
                 <a href="/" class="link logo">
                   <div class="logo-block">
-                    <span class="logo-font">Quadratic bezier</span>
+                    <span class="logo-font">Builder of Bezier Curves</span>
                   </div>
                 </a>
                 <button type="button" class="btn nav-toggler" data-target="#topNavSlimScrContent">
@@ -35,13 +35,13 @@
                 <div class="nav-collapse nav-list-wrapper" id="topNavSlimScrContent">
                   <ul class="list">
                     <li class="nav-item active">
-                      <a href="#" class="link">Download data</a>
+                      <a href="#" class="link">App</a>
                     </li>
                     <li class="nav-item">
-                      <a href="#" class="link">Analyze data</a>
+                      <a href="#" class="link">Docs</a>
                     </li>
                     <li class="nav-item">
-                      <a href="#" class="link">Report writing</a>
+                      <a href="#" class="link">Contacts</a>
                     </li>
                   </ul>
                 </div>
@@ -55,7 +55,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h6 class="h6">Drawing Bezier Curves From Two Points</h6>
+              <h6 class="h6">Builder of Quadratic Bezier Curves</h6>
             </div>
           </div>
           <div class="row">
@@ -63,8 +63,14 @@
               <svg id="sandbox" class="sandbox"></svg>
             </div>
             <div class="col-md-4">
-              <div class="sandbox-controls">
+              <div class="sandbox-controls-wrapper">
+                <div class="tip">
+                  <i class="fa fa-times icon-close-tip"></i>
+                  <p class="tip-heading">Tip</p>
+                  <p>Please, click anywhere in the right SVG area. You need in three points. Than click on the button "Create curve".</p>
+                </div>
                 <button type="button" class="btn btn-primary btn-left-icon btn-create-curve"><i class="fa fa-magic"></i> Create curve</button>
+                <button type="button" class="btn btn-secondary btn-left-icon btn-clean"><i class="fa fa-trash"></i> Clean canvas</button>
               </div>
             </div>
           </div>
