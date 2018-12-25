@@ -8,6 +8,7 @@ Test task
 * SCSS and components (prototype of own framework)
 * Flexbox Grid for Grid (https://github.com/kristoferjoseph/flexboxgrid/; instead of own grid - why reinvent bicycle?)
 * Using library "Snap.svg"
+* Using ES6 syntax (a little, in fact as syntactic sugar)
 
 
 ### Should to implement  

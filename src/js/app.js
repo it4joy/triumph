@@ -12,27 +12,39 @@ $(function() {
   let tipContentCurrent = TIP_CONTENT_INIT;
   $(TIP_CONTENT).text(tipContentCurrent);
 
+  // coords wrapper
+  const COORDS_WRAPPER = $('.coords-wrapper');
+
   const S = Snap('#sandbox');
 
   // counter for cleaning after each moving
   let counter = 0;
-  let p_1CurrentPos = 'Point_1: 0';
-  let p_2CurrentPos = 'Point_2: 0';
-  let pControlCurrentPos = 'Control Point: 0';
+  let p_1CurrentPos = '<strong>Point_1:</strong> 0';
+  let p_2CurrentPos = '<strong>Point_2:</strong> 0';
+  let pControlCurrentPos = '<strong>Control_point:</strong> 0';
 
+  // point moving
   let movePoint = function(dX, dY, posX, posY) {
     if(posX < 594 && posY < 394 && posX > 6 && posY > 6) {
       this.attr( { dx: dX, dy: dY, cx: posX, cy: posY, cursor: 'grab' } );
       let currentPointId = this.attr('id');
-      let pointPosStr = `X: ${posX}; Y: ${posY}`;
-      if(currentPointId == 'point_1') {
-        p_1CurrentPos = `Point_1: ${pointPosStr}`;
-      } else if(currentPointId == 'point_2') {
-        p_2CurrentPos = `Point_2: ${pointPosStr}`;
+      currentPointId = currentPointId[0].toUpperCase() + currentPointId.substring(1);
+      let pointPosStr = `X: ${posX}, Y: ${posY}`;
+      if(currentPointId == 'Point_1') {
+        p_1CurrentPos = `<strong>${currentPointId}:</strong> ${pointPosStr}`;
+        console.log(p_1CurrentPos); // test
+      } else if(currentPointId == 'Point_2') {
+        p_2CurrentPos = `<strong>${currentPointId}:</strong> ${pointPosStr}`;
       } else {
-        pControlCurrentPos = `Control Point: ${pointPosStr}`;
+        pControlCurrentPos = `<strong>Control Point:</strong> ${pointPosStr}`;
       }
-      $('.coords-wrapper').text(`${p_1CurrentPos} | ${p_2CurrentPos} | ${pControlCurrentPos}`);
+      if( $(COORDS_WRAPPER).css('display') == 'none' ) {
+        $(COORDS_WRAPPER).html('');
+        $(COORDS_WRAPPER).show().html(`${p_1CurrentPos}; ${p_2CurrentPos}; ${pControlCurrentPos}.`);
+      } else {
+        $(COORDS_WRAPPER).html('');
+        $(COORDS_WRAPPER).html(`${p_1CurrentPos}; ${p_2CurrentPos}; ${pControlCurrentPos}.`);
+      }
     } else {
       return false;
     }
@@ -48,14 +60,18 @@ $(function() {
   let counterOfPoints = 0;
 
   // creating points anywhere in the svg area
+  let pointsCoordsInit = [];
+
   $('#sandbox').click(function(e) {
     ++counterOfPoints;
+
+    let offset = $(this).offset();
+    let relativeX = (e.pageX - offset.left);
+    let relativeY = (e.pageY - offset.top);
+
     if(counterOfPoints > 3) {
       return false;
     } else {
-      let offset = $(this).offset();
-      let relativeX = (e.pageX - offset.left);
-      let relativeY = (e.pageY - offset.top);
       if(counterOfPoints > 2) {
         let circle = Snap.parse(`<circle cx="${relativeX}" cy="${relativeY}" r="6" fill="#ff7f7c" class="point" id="point_${counterOfPoints}">`);
         S.append(circle);
@@ -69,6 +85,32 @@ $(function() {
         tipContentCurrent = TIP_CONTENT_AFTER_POINTS_READY;
         $(TIP_CONTENT).text(tipContentCurrent);
       }
+    }
+
+    // display coords of each click (in fact each new point);
+    // it will be overwritten after first point's moving and it uses standalone array;
+    let currentPointX = relativeX;
+    let currentPointY = relativeY;
+    currentPointX = `X: ${currentPointX}, `;
+    currentPointY = `Y: ${currentPointY}`;
+    pointsCoordsInit.push(currentPointX + currentPointY);
+    //console.log(pointsCoordsInit.length); // test
+
+    if(pointsCoordsInit.length == 3) {
+      pointsCoordsInit[0] = '<strong>Point_1:</strong> ' + pointsCoordsInit[0];
+      pointsCoordsInit[1] = '<strong>Point_2:</strong> ' + pointsCoordsInit[1];
+      pointsCoordsInit[2] = '<strong>Control Point:</strong> ' + pointsCoordsInit[2];
+      if( $(COORDS_WRAPPER).css('display') == 'none' ) {
+        $(COORDS_WRAPPER).show().html( pointsCoordsInit.join('; ') );
+        console.log(pointsCoordsInit.join('; ')); // test
+        //console.log(pointsCoordsInit.length); // test
+      }
+      // set current coords as initial coords before point moving starts
+      p_1CurrentPos = pointsCoordsInit[0];
+      p_2CurrentPos = pointsCoordsInit[1];
+      pControlCurrentPos = pointsCoordsInit[2];
+    } else {
+      return false;
     }
   });
 
@@ -98,11 +140,11 @@ $(function() {
     let controlPointY = controlPoint.attr('cy');
     let endPointX = point_2.attr('cx');
     let endPointY = point_2.attr('cy');
-    let pathAttrD = 'M' + startPointX + ' ' + startPointY + ' ' + 'Q ' + controlPointX + ' ' + controlPointY + ' ' + endPointX + ' ' + endPointY;
-    console.log(pathAttrD); // test
-    let signalLineStartPoint = '<line x1="' + startPointX + '" y1="' + startPointY + '" x2="' + controlPointX + '" y2="' + controlPointY + '" style="stroke:rgba(255,127,124,0.5);stroke-width:2" class=\'signal-line\' />';
-    let signalLineEndPoint = '<line x1="' + controlPointX + '" y1="' + controlPointY + '" x2="' + endPointX + '" y2="' + endPointY + '" style="stroke:rgba(255,127,124,0.5);stroke-width:2" class=\'signal-line\' />';
-    let pathEl = '<path d="' + pathAttrD + '" style="fill:transparent;stroke:black;stroke-width:2" class=\'curve\'>';
+    let pathAttrD = `M${startPointX} ${startPointY} Q ${controlPointX} ${controlPointY} ${endPointX} ${endPointY}`;
+    //console.log(pathAttrD); // test
+    let signalLineStartPoint = `<line x1=${startPointX} y1=${startPointY} x2=${controlPointX} y2=${controlPointY} style="stroke:rgba(255,127,124,0.5);stroke-width:2" class='signal-line' />`;
+    let signalLineEndPoint = `<line x1=${controlPointX} y1=${controlPointY} x2=${endPointX} y2=${endPointY} style="stroke:rgba(255,127,124,0.5);stroke-width:2" class='signal-line' />`;
+    let pathEl = `<path d='${pathAttrD}' style="fill:transparent;stroke:black;stroke-width:2" class='curve'>`;
     let curve = Snap.parse(pathEl);
     let signalLineStart = Snap.parse(signalLineStartPoint);
     let signalLineEnd = Snap.parse(signalLineEndPoint);
@@ -122,8 +164,11 @@ $(function() {
     
     S.clear();
     $('#sandbox').trigger('cleanCanvas');
+    pointsCoordsInit.length = 0;
+    console.log(pointsCoordsInit.length); // test
     $('.tip').hide();
     $('.btn-create-curve, .btn-clean').hide();
+    $(COORDS_WRAPPER).hide().html('');
   });
 
   const restoreTip = () => {
@@ -133,7 +178,7 @@ $(function() {
   }
 
   $('#sandbox').on('cleanCanvas', function() {
-    setTimeout(restoreTip, 5000);
+    setTimeout(restoreTip, 3000);
     counterOfPoints = 0;
   });
 });
