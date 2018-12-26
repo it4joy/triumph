@@ -17,3 +17,4 @@ Test task
 
 ### Don't worry, here're current features  
 * You can move points since the third (control) point has been installed, only so
+* You can clean the canvas only after all of three points were installed (necessary buttons are shown at this moment)
