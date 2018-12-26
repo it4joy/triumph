@@ -19,9 +19,8 @@ $(function() {
 
   // counter for cleaning after each moving
   let counter = 0;
-  let p_1CurrentPos = '<strong>Point_1:</strong> 0';
-  let p_2CurrentPos = '<strong>Point_2:</strong> 0';
-  let pControlCurrentPos = '<strong>Control_point:</strong> 0';
+  let p_1CurrentPos, p_2CurrentPos, pControlCurrentPos;
+  p_1CurrentPos = p_2CurrentPos = pControlCurrentPos = '';
 
   // point moving
   let movePoint = function(dX, dY, posX, posY) {
@@ -32,7 +31,7 @@ $(function() {
       let pointPosStr = `X: ${posX}, Y: ${posY}`;
       if(currentPointId == 'Point_1') {
         p_1CurrentPos = `<strong>${currentPointId}:</strong> ${pointPosStr}`;
-        console.log(p_1CurrentPos); // test
+        //console.log(p_1CurrentPos); // test
       } else if(currentPointId == 'Point_2') {
         p_2CurrentPos = `<strong>${currentPointId}:</strong> ${pointPosStr}`;
       } else {
@@ -55,9 +54,27 @@ $(function() {
     }
   }
 
-  // init required points
-  let point_1, point_2, controlPoint;
+  // init required vars
+  let point_1, point_2, controlPoint, curve;
+  let point_1Id, point_2Id, controlPointId; // for array `elsToRemove`
+  let signalLine_1, signalLine_2, curveToRemove, signalLine_1Id, signalLine_2Id, curveToRemoveId; // for array `elsToRemove`
   let counterOfPoints = 0;
+  let elsToRemove = [];
+
+  // leaves only unique values (IDs) in array `elsToRemove`
+  let leaveUniqueArrEls = (arr) => {
+    let objHelper = {};
+
+    for(let i = 0; i < arr.length; i++) {
+      let str = arr[i];
+      objHelper[str] = true;
+    }
+    arr.length = 0;
+    $.each(objHelper, function(i, val) {
+      arr.push(i);
+    });
+    return arr;
+  }
 
   // creating points anywhere in the svg area
   let pointsCoordsInit = [];
@@ -87,8 +104,8 @@ $(function() {
       }
     }
 
-    // display coords of each click (in fact each new point);
-    // it will be overwritten after first point's moving and it uses standalone array;
+    // display coords of each click (in fact each new point)
+    // it will be overwritten after first point's moving and it uses standalone array
     let currentPointX = relativeX;
     let currentPointY = relativeY;
     currentPointX = `X: ${currentPointX}, `;
@@ -125,6 +142,12 @@ $(function() {
     point_1 = S.select('#point_1');
     point_2 = S.select('#point_2');
     controlPoint = S.select('#point_3');
+    // for array `elsToRemove`
+    point_1Id = point_1.attr('id');
+    point_2Id = point_2.attr('id');
+    controlPointId = controlPoint.attr('id');
+    elsToRemove.push(point_1Id, point_2Id, controlPointId);
+    // calling method `drag`
     point_1.drag(movePoint, null, null);
     point_2.drag(movePoint, null, null);
     controlPoint.drag(movePoint, null, null);
@@ -142,15 +165,25 @@ $(function() {
     let endPointY = point_2.attr('cy');
     let pathAttrD = `M${startPointX} ${startPointY} Q ${controlPointX} ${controlPointY} ${endPointX} ${endPointY}`;
     //console.log(pathAttrD); // test
-    let signalLineStartPoint = `<line x1=${startPointX} y1=${startPointY} x2=${controlPointX} y2=${controlPointY} style="stroke:rgba(255,127,124,0.5);stroke-width:2" class='signal-line' />`;
-    let signalLineEndPoint = `<line x1=${controlPointX} y1=${controlPointY} x2=${endPointX} y2=${endPointY} style="stroke:rgba(255,127,124,0.5);stroke-width:2" class='signal-line' />`;
-    let pathEl = `<path d='${pathAttrD}' style="fill:transparent;stroke:black;stroke-width:2" class='curve'>`;
-    let curve = Snap.parse(pathEl);
+    let signalLineStartPoint = `<line x1=${startPointX} y1=${startPointY} x2=${controlPointX} y2=${controlPointY} style="stroke:rgba(255,127,124,0.5);stroke-width:2" id='signal_line_1' class='signal-line' />`;
+    let signalLineEndPoint = `<line x1=${controlPointX} y1=${controlPointY} x2=${endPointX} y2=${endPointY} style="stroke:rgba(255,127,124,0.5);stroke-width:2" id='signal_line_2' class='signal-line' />`;
+    let pathEl = `<path d='${pathAttrD}' style="fill:transparent;stroke:black;stroke-width:2" id='quadratic_bezier_curve' class='curve'>`;
+    curve = Snap.parse(pathEl);
     let signalLineStart = Snap.parse(signalLineStartPoint);
     let signalLineEnd = Snap.parse(signalLineEndPoint);
     S.append(curve);
     S.append(signalLineStart);
     S.append(signalLineEnd);
+    // adds elements to array for removing
+    signalLine_1 = S.select('#signal_line_1');
+    signalLine_2 = S.select('#signal_line_2');
+    curveToRemove = S.select('#quadratic_bezier_curve');
+    signalLine_1Id = signalLine_1.attr('id');
+    signalLine_2Id = signalLine_2.attr('id');
+    curveToRemoveId = curveToRemove.attr('id');
+    elsToRemove.push(signalLine_1Id, signalLine_2Id, curveToRemoveId);
+    leaveUniqueArrEls(elsToRemove); // leave only unique els in array
+    console.log(elsToRemove); // test
   });
 
   // clean the canvas
@@ -161,8 +194,15 @@ $(function() {
 
   $('.btn-clean').on('click', function(e) {
     e.preventDefault();
-    
-    S.clear();
+
+    // - removes all elements except for SVG area's grid
+    //console.log(elsToRemove.length); // test
+    //console.log(elsToRemove.toString()); // test
+    $.each(elsToRemove, function(i, val) {
+      console.log(`${i} | ${val}`);
+      S.select(`#${val}`).remove();
+    });
+
     $('#sandbox').trigger('cleanCanvas');
     pointsCoordsInit.length = 0;
     console.log(pointsCoordsInit.length); // test
@@ -179,6 +219,8 @@ $(function() {
 
   $('#sandbox').on('cleanCanvas', function() {
     setTimeout(restoreTip, 3000);
+    // nullifies counter & array for removing elements
     counterOfPoints = 0;
+    elsToRemove.length = 0;
   });
 });
