@@ -1,5 +1,5 @@
-# IndexBox
-Test task  
+# Triumph, Group of Companies
+Test task for position 'Jr Frontend Developer'
 
 
 ### Project Features  
