@@ -7,9 +7,13 @@ Test task
 * Webpack v.4
 * SCSS and components (prototype of own framework)
 * Flexbox Grid for Grid (https://github.com/kristoferjoseph/flexboxgrid/; instead of own grid - why reinvent bicycle?)
-* Using library "Snap.svg"
-* Using ES6 syntax (a little, in fact as syntactic sugar)
+* Usage the good old jQuery
+* Usage library "Snap.svg"
+* Usage ES6 syntax (a little, in fact as syntactic sugar)
+
+### Usability Features  
+* On the right you can see tip is changing according context; you can close it
 
 
-### Should to implement  
-* `@media` for each component move to the relevant file, in main file with media queries should to left only breakpoints and SCSS mixins (look at the Rustyle)
+### Don't worry, here're current features  
+* You can move points since the third (control) point has been installed, only so
