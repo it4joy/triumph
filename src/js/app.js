@@ -8,7 +8,7 @@ $(function() {
   // tip content
   const TIP_CONTENT = $('.tip-content');
   const TIP_CONTENT_INIT = 'Please, click anywhere in the right SVG area. You need in three points. Than click on the button "Create curve".';
-  const TIP_CONTENT_AFTER_POINTS_READY = 'The point created third is a control point. You can move points before and after creating curve.';
+  const TIP_CONTENT_AFTER_POINTS_READY = 'The point created third (pink) is a control point. You can move points before and after creating curve.';
   let tipContentCurrent = TIP_CONTENT_INIT;
   $(TIP_CONTENT).text(tipContentCurrent);
 
