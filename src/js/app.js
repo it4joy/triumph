@@ -21,6 +21,7 @@ $(function() {
   const COORDS_WRAPPER = $('.coords-wrapper');
 
   const S = Snap('#sandbox');
+  const SANDBOX = $('#sandbox');
 
   // counter for cleaning after each moving
   let counter = 0;
@@ -56,6 +57,8 @@ $(function() {
     if(counter > 0) {
       $('.curve').remove();
       $('.signal-line').remove();
+      $(BTN_CREATE_CURVE).attr('disabled', false);
+      counterOfCreatedCurves = 0;
     }
   }
 
@@ -64,6 +67,7 @@ $(function() {
   let point_1Id, point_2Id, controlPointId; // for array `elsToRemove`
   let signalLine_1, signalLine_2, curveToRemove, signalLine_1Id, signalLine_2Id, curveToRemoveId; // for array `elsToRemove`
   let counterOfPoints = 0;
+  let counterOfCreatedCurves = 0;
   let elsToRemove = [];
 
   // leaves only unique values (IDs) in array `elsToRemove`
@@ -84,7 +88,7 @@ $(function() {
   // creating points anywhere in the svg area
   let pointsCoordsInit = [];
 
-  $('#sandbox').click(function(e) {
+  $(SANDBOX).click(function(e) {
     ++counterOfPoints;
 
     let offset = $(this).offset();
@@ -103,7 +107,7 @@ $(function() {
       }
 
       if(counterOfPoints == 3) {
-        $('#sandbox').trigger('pointsReady');
+        $(SANDBOX).trigger('pointsReady');
         tipContentCurrent = TIP_CONTENT_AFTER_POINTS_READY;
         $(TIP_CONTENT).text(tipContentCurrent);
       }
@@ -138,13 +142,13 @@ $(function() {
 
   // using custom event
   // when points are ready buttons are enabled
-  $('#sandbox').bind('pointsReady', function() {
+  $(SANDBOX).bind('pointsReady', function() {
     console.log('points are ready'); // test
     $(BTN_CREATE_CURVE).attr('disabled', false);
     $(BTN_CLEAN).attr('disabled', false);
   });
 
-  $('#sandbox').on('pointsReady', function() {
+  $(SANDBOX).on('pointsReady', function() {
     point_1 = S.select('#point_1');
     point_2 = S.select('#point_2');
     controlPoint = S.select('#point_3');
@@ -163,6 +167,9 @@ $(function() {
   $(BTN_CREATE_CURVE).on('click', function(e) {
     e.preventDefault();
 
+    // counts clicks on that button (prevents overlaying curves)
+    counterOfCreatedCurves++;
+    // drawing
     let startPointX = point_1.attr('cx');
     let startPointY = point_1.attr('cy');
     let controlPointX = controlPoint.attr('cx');
@@ -183,6 +190,11 @@ $(function() {
     // displays another tip
     tipContentCurrent = TIP_CONTENT_AFTER_CREATING_CURVE;
     $(TIP_CONTENT).text(tipContentCurrent);
+    // makes that button disabled if it was clicked more than one time (to prevent overlaying of curves)
+    if(counterOfCreatedCurves == 1) {
+      $(this).attr('disabled', true);
+    }
+    console.log(counterOfCreatedCurves); // test
     // adds elements to array for removing
     signalLine_1 = S.select('#signal_line_1');
     signalLine_2 = S.select('#signal_line_2');
@@ -197,7 +209,7 @@ $(function() {
 
   // clean the canvas
   // using custom event
-  $('#sandbox').bind('cleanCanvas', function() {
+  $(SANDBOX).bind('cleanCanvas', function() {
     console.log('cleanCanvas'); // test
   });
 
@@ -212,7 +224,7 @@ $(function() {
       S.select(`#${val}`).remove();
     });
 
-    $('#sandbox').trigger('cleanCanvas');
+    $(SANDBOX).trigger('cleanCanvas');
     pointsCoordsInit.length = 0;
     console.log(pointsCoordsInit.length); // test
     $('.tip').hide();
@@ -227,10 +239,12 @@ $(function() {
     $('.tip').show();
   }
 
-  $('#sandbox').on('cleanCanvas', function() {
+  $(SANDBOX).on('cleanCanvas', function() {
     setTimeout(restoreTip, 3000);
-    // nullifies counter & array for removing elements
+    // nullifies counters & array for removing elements
     counterOfPoints = 0;
+    counterOfCreatedCurves = 0;
+    console.log(`Counter Of CreatedCurves: ${counterOfCreatedCurves}`); // test
     elsToRemove.length = 0;
   });
 });
