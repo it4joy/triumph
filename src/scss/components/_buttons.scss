@@ -24,6 +24,9 @@
   &.disabled,
   &:disabled {
     opacity: $btn-disabled-opacity;
+    &:hover {
+      cursor: not-allowed;
+    }
   }
   &-primary {
     background: $bright-blue;
@@ -31,11 +34,17 @@
     &:hover {
       background: darken($bright-blue, 10%);
     }
+    &:disabled:hover {
+      background: $bright-blue;
+    }
   }
   &-secondary {
     background: $gray-300;
     &:hover {
       background: darken($gray-300, 10%);
+    }
+    &:disabled:hover {
+      background: $gray-300;
     }
   }
   &-danger {
@@ -43,6 +52,9 @@
     color: $white;
     &:hover {
       background: darken($lilac-pink, 10%);
+    }
+    &:disabled:hover {
+      background: $lilac-pink;
     }
   }
   &-left-icon {

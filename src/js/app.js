@@ -7,10 +7,15 @@ $(function() {
 
   // tip content
   const TIP_CONTENT = $('.tip-content');
-  const TIP_CONTENT_INIT = 'Please, click anywhere in the right SVG area. You need in three points. Than click on the button "Create curve".';
-  const TIP_CONTENT_AFTER_POINTS_READY = 'The point created third (pink) is a control point. You can move points before and after creating curve.';
+  const TIP_CONTENT_INIT = 'Please, click anywhere in the right SVG area. You need in three points. The third point (pink) will be a control point. After three clicks you may move points and use buttons.';
+  const TIP_CONTENT_AFTER_POINTS_READY = 'Note, the point created third (pink) is a control point. You can move points before and after creating curve.';
+  const TIP_CONTENT_AFTER_CREATING_CURVE = 'Congrats! Your quadratic Bezier curve is ready. If you want, you can move points and create curve again. And one thing as a cherry on the cake: in the nearest future we\'ll add ability to save the curve locally *__*';
   let tipContentCurrent = TIP_CONTENT_INIT;
   $(TIP_CONTENT).text(tipContentCurrent);
+
+  // buttons
+  const BTN_CREATE_CURVE = $('.btn-create-curve');
+  const BTN_CLEAN = $('.btn-clean');
 
   // coords wrapper
   const COORDS_WRAPPER = $('.coords-wrapper');
@@ -132,10 +137,11 @@ $(function() {
   });
 
   // using custom event
-  // when points are ready show buttons
+  // when points are ready buttons are enabled
   $('#sandbox').bind('pointsReady', function() {
     console.log('points are ready'); // test
-    $('.btn-create-curve, .btn-clean').show();
+    $(BTN_CREATE_CURVE).attr('disabled', false);
+    $(BTN_CLEAN).attr('disabled', false);
   });
 
   $('#sandbox').on('pointsReady', function() {
@@ -154,7 +160,7 @@ $(function() {
   });
 
   // drawing Q Bezier curve by click
-  $('.btn-create-curve').on('click', function(e) {
+  $(BTN_CREATE_CURVE).on('click', function(e) {
     e.preventDefault();
 
     let startPointX = point_1.attr('cx');
@@ -174,6 +180,9 @@ $(function() {
     S.append(curve);
     S.append(signalLineStart);
     S.append(signalLineEnd);
+    // displays another tip
+    tipContentCurrent = TIP_CONTENT_AFTER_CREATING_CURVE;
+    $(TIP_CONTENT).text(tipContentCurrent);
     // adds elements to array for removing
     signalLine_1 = S.select('#signal_line_1');
     signalLine_2 = S.select('#signal_line_2');
@@ -192,7 +201,7 @@ $(function() {
     console.log('cleanCanvas'); // test
   });
 
-  $('.btn-clean').on('click', function(e) {
+  $(BTN_CLEAN).on('click', function(e) {
     e.preventDefault();
 
     // - removes all elements except for SVG area's grid
@@ -207,7 +216,8 @@ $(function() {
     pointsCoordsInit.length = 0;
     console.log(pointsCoordsInit.length); // test
     $('.tip').hide();
-    $('.btn-create-curve, .btn-clean').hide();
+    $(BTN_CREATE_CURVE).attr('disabled', true);
+    $(BTN_CLEAN).attr('disabled', true);
     $(COORDS_WRAPPER).hide().html('');
   });
 
