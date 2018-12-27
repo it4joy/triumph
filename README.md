@@ -18,3 +18,8 @@ Test task for position 'Jr Frontend Developer'
 ### Don't worry, here're current features  
 * You can move points since the third (control) point has been installed, only so
 * You can clean the canvas only after all of three points were installed (necessary buttons are shown at this moment)
+
+### Tests  
+* Manual testing according to the use cases
+* Browser: Google Chrome, 71.0.3578.98 (Official built), (64 bit)
+* Simple output for dev purposes to browser's console
